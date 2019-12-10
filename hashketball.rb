@@ -121,10 +121,10 @@ def game_hash
 end
         
 
-def num_points_scored(players_name)
-  game_hash.each do |place, team|
-    team.each do |attribute, data|
-      if attribute == :players
+def num_points_scored(players_name)#want to iterate and #get to players
+  game_hash.each do |place, team| #need variable for key #and value. when check values... place is the place #and team is each team's data.
+    team.each do |attribute, data| #attribute returns team #name and data returns it's value. returns each key #value pair. #prying after every line of code is a good practice.
+      if attribute == :players #will keep iterating until #stops at players attribute.
         data.each do |player|
         if player[:player_name] == players_name
           return player[:points]
@@ -141,7 +141,7 @@ def shoe_size(players_name)
       if attribute == :players
         data.each do |player|
         if player[:player_name] == players_name
-          return player[:shoe]
+          return player[:shoe] #just return shoe instead #of points because it is still in the same #subset of data. 
         end
         end
       end
@@ -150,16 +150,16 @@ def shoe_size(players_name)
 end 
 
 def team_colors(team_name)
-  game_hash.each do |place, team|
-    if team[:team_name] == team_name
-      return team[:colors]
+  game_hash.each do |place, team| 
+    if team[:team_name] == team_name #check to make sure #we are returning colors for specific team being #passed in. if it matches, return team's color 
+      return team[:colors] 
     end
   end 
 end 
 
 def team_names #not using each because we are returning a new #array.
 game_hash.map do |place, team|
-  team[:team_name]
+  team[:team_name] #this will create a new array of the #team names. map is preferred over each when returning #a new array. 
   end
 end   
 
@@ -167,8 +167,8 @@ def player_numbers(team_name)
   nums = []
   game_hash.each do |place, team|
     if team[:team_name] == team_name
-      team.each do |attributes, data|
-        if attributes == :players
+      team.each do |attributes, data| #then we want to #iterate over the team data and deal with their #attribute and their data.
+        if attributes == :players #also need to get into the players so use another if statement.
           data.each do |player|
           nums.push(player[:number])
           end
@@ -180,13 +180,13 @@ def player_numbers(team_name)
 end
 
 def player_stats(players_name)
-new_hash = {}
+new_hash = {} #create new hash because want to return hash
 game_hash.each do |place, team|
-  team.each do |attributes, data|  #iterate over the team again to #deal with each t
-    if attributes == :players 
+  team.each do |attributes, data| #iterate over team again so we can deal with each team's players. 
+    if attributes == :players #check to make sure we are #dealing with player key-value
       data.each do |player|
         if player[:player_name] == players_name
-          new_hash = player.delete_if do |k, v|
+          new_hash = player.delete_if do |k, v| #doesn't want player name included in the stats because the player name is not a stat, it is the player's name. delete_if belongs to hash class. will delete any key-value pair you tell it to in its block. so can have it delete any key that equals player_name and then it will return the new hash without the player name and it's value. (without player name and the name of the player)
             k == :player_name 
           end 
         end  
@@ -239,7 +239,7 @@ end
 
 def player_with_longest_name
   longest_name = []
-  game_hash.values.each do |team|
+  game_hash.values.each do |team| #.values just goes through the values of the key value pairs. 
     team[:players].each do |player|
       longest_name << player[:player_name]
     end
